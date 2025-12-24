@@ -2,3 +2,12 @@
 .project
 asn1/*
 doc/asn1js
+
+# Binary
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out

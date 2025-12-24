@@ -224,16 +224,23 @@ func parseInt64(bytes []byte) (ret int64, err error) {
 }
 
 func sizeInt64(i int64) (size int) {
-	for ; i != 0 || size == 0; i >>= 8 {
+	size = 1
+	for i > 127 {
 		size++
+		i >>= 8
+	}
+	for i < -128 {
+		size++
+		i >>= 8
 	}
 	return
 }
 
 func writeInt64(bytes *Bytes, i int64) (size int) {
-	for ; i != 0 || size == 0; i >>= 8 { // Write at least one byte even if the value is 0
+	size = sizeInt64(i)
+	for j := 0; j < size; j++ {
 		bytes.writeBytes([]byte{byte(i)})
-		size++
+		i >>= 8
 	}
 	return
 }
